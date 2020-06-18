@@ -9,14 +9,14 @@ class Product extends Model
     protected $table = 'products';
 
     protected $fillable = [
-        'name', 'slug', 'depscription', 'quantity', 'price', 'promotional', 'idCategory', 'idProductType', 'status'
+        'name', 'slug', 'description', 'quantity', 'price', 'promotional', 'idCategory', 'idProductType', 'image', 'status'
     ];
 
-    public function productType() {
+    public function productTypes() {
         return $this->belongsTo('App\Models\ProductType', 'idProductType', 'id');
     }
 
-    public function Category() {
+    public function Categorys() {
         return $this->belongsTo('App\Models\Category', 'idCategory', 'id');
     }
 }

@@ -38,7 +38,7 @@
                         <td>{{ $key+1 }}</td>
                         <td>{{ $value->name }}</td>
                         <td>{{ $value->slug }}</td>
-                        <td>{{ $value->idCategory }}</td>
+                        <td>{{ $value->Category->name }}</td>
                         <td>
                             @if($value->status==1)
                                 {{ "Hiển thị" }}

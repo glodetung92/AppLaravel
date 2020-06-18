@@ -21,4 +21,5 @@ Route::group(['prefix' => 'admin'], function() {
     // www.appstore.com/admin/...
     Route::resource('category', 'CategoryController');
     Route::resource('producttype', 'ProductTypeController');
+    Route::resource('product', 'ProductController');
 });
