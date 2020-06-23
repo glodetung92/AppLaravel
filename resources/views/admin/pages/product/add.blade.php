@@ -16,33 +16,48 @@
                 <fieldset class="form-group">
                     <label>Tên sản phẩm</label>
                     <input class="form-control" name="name" placeholder="Nhập tên sản phẩm">
-                    @error('name')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
+                    @if($errors->has('name'))
+                        <div class="alert alert-danger">{{ $errors->first('name') }}</div>
+                    @endif
                 </fieldset>
                 <div class="form-group">
                     <label for="quantity">Số lượng</label>
                     <input type="number" value="1" name="quantity" min="1" class="form-control">
+                    @if($errors->has('quantity'))
+                        <div class="alert alert-danger">{{ $errors->first('quantity') }}</div>
+                    @endif
                 </div>
                 <div class="form-group">
                     <label for="price">Đơn giá</label>
                     <input type="text" name="price" placeholder="Nhập đơn giá" class="form-control">
+                    @if($errors->has('price'))
+                        <div class="alert alert-danger">{{ $errors->first('price') }}</div>
+                    @endif
                 </div>
                 <div class="form-group">
                     <label for="promotional">Giá khuyến mãi</label>
                     <input type="text" name="promotional" placeholder="Nhập giá khuyến mãi nếu có" value="0" class="form-control">
+                    @if($errors->has('promotional'))
+                        <div class="alert alert-danger">{{ $errors->first('promotional') }}</div>
+                    @endif
                 </div>
                 <div class="form-group">
                     <label for="img">Ảnh minh họa</label>
                     <input type="file" name="image" class="form-control">
+                    @if($errors->has('image'))
+                        <div class="alert alert-danger">{{ $errors->first('image') }}</div>
+                    @endif
                 </div>
                 <div class="form-group">
                     <label>Mô tả sản phẩm</label>
                     <textarea name="description" id="demo" rows="5" cols="5" class="form-control"></textarea>
+                    @if($errors->has('description'))
+                        <div class="alert alert-danger">{{ $errors->first('description') }}</div>
+                    @endif
                 </div>
                 <div class="form-group">
                     <label>Danh mục sản phẩm</label>
-                    <select class="form-control" name="idCategory">
+                    <select class="form-control cateProduct" name="idCategory">
                         @foreach ($category as $cate)
                             <option value="{{ $cate->id }}">{{ $cate->name }}</option>
                         @endforeach
@@ -51,7 +66,7 @@
 
                 <div class="form-group">
                     <label>Loại sản phẩm</label>
-                    <select class="form-control" name="idProductType">
+                    <select class="form-control proTypeProduct" name="idProductType">
                         @foreach ($producttype as $pro)
                             <option value="{{ $pro->id }}">{{ $pro->name }}</option>
                         @endforeach

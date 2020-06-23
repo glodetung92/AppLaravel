@@ -141,4 +141,142 @@ $(document).ready(function(){
             });
         });
     });
+
+    $('.cateProduct').change(function(){
+        let idCate = $(this).val();
+        $.ajax({
+            url : 'getproducttype',
+            data : {
+                idCate : idCate
+            },
+            type : 'get',
+            dataType : 'json',
+            success : function($data) {
+                let html = '';
+                $.each($data, function($key, $value){
+                    html += '<option value='+$value['idCategory']+'>';
+                    html += $value['name'];
+                    html += '</option>';
+                });
+                $('.proTypeProduct').html(html);
+            }
+        });
+    });
+    // Edit product
+    $('.editProduct').click(function(){
+        $('.errorName').hide();
+        $('.errorQuantity').hide();
+        $('.errorPrice').hide();
+        $('.errorPromotional').hide();
+        $('.errorImage').hide();
+        $('.errorDescription').hide();
+        let id = $(this).data('id');
+        $.ajax({
+            url : 'admin/product/'+id+'/edit',
+            type : 'get',
+            dataType : 'json',
+            success : function(data) {
+                $('.name').val(data.product.name);
+                $('.quantity').val(data.product.quantity);
+                $('.price').val(data.product.price);
+                $('.promotional').val(data.product.promotional);
+                $('.imageThum').attr('src', 'img/upload/product/'+data.product.image);
+                if (data.product.status==1) {
+                    $('.ht').attr('selected', 'selected');
+                } else {
+                    $('.kht').attr('selected', 'selected');
+                }
+                CKEDITOR.instances['demo'].setData(data.product.description);
+                let html1 = '';
+                $.each(data.category, function(key, value){
+                    html1 += '<option value="'+value['id']+'"class="category"'+key+'>';
+                        html1 += value['name'];
+                    html1 +=  '</option>';
+                    if (data.product.idCategory==value['id']) {
+                        $('.category'+key).attr('selected', 'selected');
+                    }
+                });
+                $('.cateProduct').html(html1);
+
+                let html2 = '';
+                $.each(data.producttype, function(key, value){
+                    html2 += '<option value="'+value['id']+'"class="producttype"'+key+'>';
+                        html2 += value['name'];
+                    html2 +=  '</option>';
+                    if (data.product.idCategory==value['id']) {
+                        $('.producttype'+key).attr('selected', 'selected');
+                    }
+                });
+                $('.proTypeProduct').html(html2);
+            }
+        });
+
+        $('#updateProduct').on('submit', function(event){
+            // Chặn form submit
+            event.preventDefault();
+            $.ajax({
+                url : 'admin/updatePro/'+id,
+                data : new FormData(this),
+                contentType : false,
+                processData : false,
+                cache : false,
+                type : 'post',
+                success : function(data){
+                    console.log(data);
+                    if (data.error == 'true') {
+                        if (data.massage.name) {
+                            $('.errorName').show();
+                            $('.errorName').text(data.massage.name[0]);
+                            $('.name').val('');
+                        }
+                        if (data.massage.quantity) {
+                            $('.errorQuantity').show();
+                            $('.errorQuantity').text(data.massage.quantity[0]);
+                            $('.quantity').val('');
+                        }
+                        if (data.massage.price) {
+                            $('.errorPrice').show();
+                            $('.errorPrice').text(data.massage.price[0]);
+                            $('.price').val('');
+                        }
+                        if (data.massage.promotional) {
+                            $('.errorPromotional').show();
+                            $('.errorPromotional').text(data.massage.promotional[0]);
+                            $('.promotional').val('');
+                        }
+                        if (data.massage.description) {
+                            $('.errorDescription').show();
+                            $('.errorDescription').text(data.massage.description[0]);
+                            $('.description').val('');
+                        }
+                        if (data.massage.image) {
+                            $('.errorImage').show();
+                            $('.errorImage').text(data.massage.image[0]);
+                            $('.image').val('');
+                        }
+                    } else {
+                        toastr.success(data.result , 'Thông báo', {timeOut: 5000});
+                        $('#delete').modal('hide');
+                        location.reload();
+                    }
+                }
+            });
+        });
+    });
+    //  Delete product
+    $('.deleteProduct').click(function() {
+        let id = $(this).data('id');
+        $('.delProduct').click(function() {
+            $.ajax({
+                url : 'admin/product/'+id,
+                type : 'delete',
+                dataType : 'json',
+                success : function($data) {
+                    toastr.success($data.result , 'Thông báo', {timeOut: 5000});
+                    $('#delete').modal('hide');
+                    location.reload();
+                }
+            });
+        });
+    });
 });

@@ -17,9 +17,13 @@ Route::get('/', function () {
     return view('admin.pages.index');
 });
 
+Route::get('getproducttype', 'AjaxController@getProductType');
+
 Route::group(['prefix' => 'admin'], function() {
     // www.appstore.com/admin/...
     Route::resource('category', 'CategoryController');
     Route::resource('producttype', 'ProductTypeController');
     Route::resource('product', 'ProductController');
+
+    Route::post('updatePro/{id}', 'ProductController@update');
 });

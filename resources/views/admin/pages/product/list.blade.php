@@ -55,12 +55,12 @@
                             <b>Hình minh họa</b>:
                             <img src="img/upload/product/{{ $value->image }}" width="100" height="100" />
                         </td>
-                        <td>{{ $value->Categorys->name }}</td>
-                        <td>{{ $value->productTypes->name }}</td>
+                        <td>{{ $value->Categories->name }}</td>
+                        <td>{{ $value->ProductType->name }}</td>
                         <td>{{ $value->status }}</td>
                         <td>
-                            <button class="btn btn-primary editProducttype" title="{{ 'Sửa '.$value->name }}" data-toggle="modal" data-target="#edit" type="button" data-id="{{ $value->id }}"><i class="fas fa-edit"></i></button>
-                            <button class="btn btn-danger deleteProducttype" title="{{ 'Xóa '.$value->name }}" data-toggle="modal" data-target="#delete" type="button" data-id="{{ $value->id }}"><i class="fas fa-trash-alt"></i></button>
+                            <button class="btn btn-primary editProduct" title="{{ 'Sửa '.$value->name }}" data-toggle="modal" data-target="#edit" type="button" data-id="{{ $value->id }}"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-danger deleteProduct" title="{{ 'Xóa '.$value->name }}" data-toggle="modal" data-target="#delete" type="button" data-id="{{ $value->id }}"><i class="fas fa-trash-alt"></i></button>
                         </td>
                     </tr>
                 @endforeach
@@ -83,35 +83,67 @@
             <div class="modal-body">
                 <div class="row" style="margin:5px">
                     <div class="col-lg-12">
-                        <form role="form">
+                        <form  method="POST" id="updateProduct" role="form" enctype="multipart/form-data">
                             <fieldset class="form-group">
-                                <label>Name</label>
-                                <input class="form-control name" name="name" placeholder="Nhập tên loại sản phẩm">
-                                <div class="alert alert-danger error" style="color: red; font-size: 1rem"></div>
+                                <label>Tên sản phẩm</label>
+                                <input class="form-control name" name="name" placeholder="Nhập tên sản phẩm">
+                                <div class="alert alert-danger errorName"></div>
                             </fieldset>
                             <div class="form-group">
-                                <label>Category</label>
-                                <select class="form-control idCategory" name="idCategory">
+                                <label for="quantity">Số lượng</label>
+                                <input type="number" value="1" name="quantity" min="1" class="form-control quantity">
+                                <div class="alert alert-danger errorQuantity"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="price">Đơn giá</label>
+                                <input type="text" name="price" placeholder="Nhập đơn giá" class="form-control price">
+                                <div class="alert alert-danger errorPrice"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="promotional">Giá khuyến mãi</label>
+                                <input type="text" name="promotional" placeholder="Nhập giá khuyến mãi nếu có" value="0" class="form-control promotional">
+                                <div class="alert alert-danger errorPromotional"></div>
+                            </div>
+                            <img class="img img-thumbnail imageThum" width="100" height="100" lign="center">
+                            <div class="form-group">
+                                <label for="img">Ảnh minh họa</label>
+                                <input type="file" name="image" class="form-control image">
+                                <div class="alert alert-danger errorImage"></div>
+                            </div>
+                            <div class="form-group">
+                                <label>Mô tả sản phẩm</label>
+                                <textarea name="description" id="demo" rows="5" cols="5" class="form-control description"></textarea>
+                                <div class="alert alert-danger errorDescription"></div>
+                            </div>
+                            <div class="form-group">
+                                <label>Danh mục sản phẩm</label>
+                                <select class="form-control cateProduct" name="idCategory">
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Loại sản phẩm</label>
+                                <select class="form-control proTypeProduct" name="idProductType">
                                 </select>
                             </div>
 
                             <div class="form-group">
                                 <label>Status</label>
-                                <select class="form-control" name="status">
+                                <select class="form-control status" name="status">
                                     <option value="1" class="ht">Hiển thị</option>
                                     <option value="0" class="kht">Không hiển thị</option>
                                 </select>
                             </div>
-                        </form>
 
+                            <input type="submit" class="btn btn-success" value="Sửa">
+                            <button type="reset" class="btn btn-primary">Nhập lại</button>
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+
+                        </form>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success updateProductType">Save</button>
-                <button type="reset" class="btn btn-primary">Làm Lại</button>
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            </div>
+
         </div>
     </div>
 </div>
@@ -126,7 +158,7 @@
                 </button>
             </div>
             <div class="modal-body" style="margin-left: 183px;">
-                <button type="button" class="btn btn-success del">Có</button>
+                <button type="button" class="btn btn-success delProduct">Có</button>
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Không</button>
             <div>
         </div>
